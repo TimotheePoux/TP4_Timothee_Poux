@@ -26,8 +26,28 @@ void editgrille(int grille[9][9], int n)
 		printf("Quelle valeur voulez-vous rentrer ?\n");
 		scanf_s("%d", &valeur);
 		grille[ligne][colonne] = valeur;
-		printf("Valeur modifiee !");
+		printf("Valeur modifiee !\n");
 	}
+}
+
+void showgrille(int grille[9][9], int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (grille[i][j] != 0)
+			{
+				printf("%d ", grille[i][j]);
+			}
+			else
+			{
+				printf("  ");
+			}
+		}
+		printf("\n");
+	}
+	printf("\n");
 }
 
 int main()
@@ -55,6 +75,12 @@ int main()
 		{0, 3, 0, 0, 0, 0, 0, 0, 0},
 		{8, 4, 0, 3, 0, 1, 0, 5, 9}
 	};
+
+	showgrille(grille_facile, 9);
+	initgrille(grille_facile, 9);
+	showgrille(grille_facile, 9);
+	editgrille(grille_moyenne, 9);
+	showgrille(grille_moyenne, 9);
 
 	return 0;
 }
