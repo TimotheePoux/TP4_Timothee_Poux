@@ -50,6 +50,32 @@ void showgrille(int grille[9][9], int n)
 	printf("\n");
 }
 
+int verification(int grille[9][9], int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n-1; j++)
+		{
+			for (int k = j+1; k < n; k++)
+			{
+				if (k == j) //Vérifie si un nombre est présent une fois par ligne
+				{
+					return 0;
+				}
+				if (grille[j][i] == grille[k][i]) //Vérifie si un nombre est présent une fois par colonne
+				{
+					return 0;
+				}
+			}
+			if (grille[i][j] < 1 || grille[i][j] > n) //Vérifie si les nombres sont entre 0 et n
+			{
+				return 0;
+			}
+		}
+	}
+	return 1;
+}
+
 int main()
 {
 	int grille_facile[9][9] = {
@@ -76,11 +102,13 @@ int main()
 		{8, 4, 0, 3, 0, 1, 0, 5, 9}
 	};
 
-	showgrille(grille_facile, 9);
-	initgrille(grille_facile, 9);
-	showgrille(grille_facile, 9);
-	editgrille(grille_moyenne, 9);
-	showgrille(grille_moyenne, 9);
+	int grille_valide[9][9] = {
+		{1, 2, 3},
+		{3, 1, 2},
+		{2, 3, 1}
+	};
+
+	printf("%d %d %d",verification(grille_facile, 9), verification(grille_moyenne, 9), verification(grille_valide, 3));
 
 	return 0;
 }
