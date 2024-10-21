@@ -6,7 +6,8 @@ void initgrille(int grille[9][9] , int n)
 	{
 		for (int j = 0; j < n; j++)
 		{
-			grille[i][j] = 0;		}
+			grille[i][j] = 0;
+		}
 	}
 }
 
@@ -26,6 +27,15 @@ void editgrille(int grille[9][9], int n)
 		printf("Quelle valeur voulez-vous rentrer ?\n");
 		scanf_s("%d", &valeur);
 		grille[ligne][colonne] = valeur;
+		if (verification(grille, n) == 0)
+		{
+			while (verification(grille, n) == 0)
+			{
+				printf("Valeur invalide ! Veuillez reessayer: \n");
+				scanf_s("%d", &valeur);
+				grille[ligne][colonne] = valeur;
+			}
+		}
 		printf("Valeur modifiee !\n");
 	}
 }
@@ -52,6 +62,16 @@ void showgrille(int grille[9][9], int n)
 
 int verification(int grille[9][9], int n)
 {
+	for (int i = 0; i < n; i++) //Vérifie si les nombres sont entre 0 et n
+	{
+		for (int j = 0 ; j < n; j++)
+		{
+			if (grille[i][j] < 1 || grille[i][j] > n)
+			{
+				return 0;
+			}
+		}
+	}
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < n-1; j++)
@@ -66,10 +86,6 @@ int verification(int grille[9][9], int n)
 				{
 					return 0;
 				}
-			}
-			if (grille[i][j] < 1 || grille[i][j] > n) //Vérifie si les nombres sont entre 0 et n
-			{
-				return 0;
 			}
 		}
 	}
@@ -108,7 +124,7 @@ int main()
 		{2, 3, 1}
 	};
 
-	printf("%d %d %d",verification(grille_facile, 9), verification(grille_moyenne, 9), verification(grille_valide, 3));
+	editgrille(grille_valide, 3);
 
 	return 0;
 }
