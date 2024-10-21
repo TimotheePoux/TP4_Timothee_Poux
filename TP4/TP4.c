@@ -10,6 +10,26 @@ void initgrille(int grille[9][9] , int n)
 	}
 }
 
+void editgrille(int grille[9][9], int n)
+{
+	int ligne = 0;
+	int colonne = 0;
+	int valeur = 0;
+	printf("Entrez les coordonees de la valeur que vous voulez modifier: ");
+	scanf_s("%d %d", &ligne, &colonne);
+	if (ligne >= n || colonne >= n)
+	{
+		printf("\nCoorndonees invalides");
+	}
+	else
+	{
+		printf("Quelle valeur voulez-vous rentrer ?\n");
+		scanf_s("%d", &valeur);
+		grille[ligne][colonne] = valeur;
+		printf("Valeur modifiee !");
+	}
+}
+
 int main()
 {
 	int grille_facile[9][9] = {
