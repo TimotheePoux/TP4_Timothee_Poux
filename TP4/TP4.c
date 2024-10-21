@@ -1,10 +1,10 @@
 #include <stdio.h>
 
-void initgrille(int grille[9][9])
+void initgrille(int grille[9][9] , int n)
 {
-	for (int i = 0; i < sizeof(grille); i++)
+	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j < sizeof(grille); j++)
+		for (int j = 0; j < n; j++)
 		{
 			grille[i][j] = 0;		}
 	}
