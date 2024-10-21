@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 
 void initgrille(int grille[9][9] , int n)
 {
@@ -66,7 +67,7 @@ int verification(int grille[9][9], int n)
 	{
 		for (int j = 0 ; j < n; j++)
 		{
-			if (grille[i][j] < 1 || grille[i][j] > n)
+			if ((grille[i][j] < 1 && grille[i][j] != 0) || grille[i][j] > n)
 			{
 				return 0;
 			}
@@ -78,11 +79,11 @@ int verification(int grille[9][9], int n)
 		{
 			for (int k = j+1; k < n; k++)
 			{
-				if (k == j) //Vérifie si un nombre est présent une fois par ligne
+				if (k == j && j != 0) //Vérifie si un nombre est présent une fois par ligne
 				{
 					return 0;
 				}
-				if (grille[j][i] == grille[k][i]) //Vérifie si un nombre est présent une fois par colonne
+				if (grille[j][i] == grille[k][i] && grille[j][i] != 0) //Vérifie si un nombre est présent une fois par colonne
 				{
 					return 0;
 				}
@@ -90,6 +91,45 @@ int verification(int grille[9][9], int n)
 		}
 	}
 	return 1;
+}
+
+void fillgrille(int grille[9][9], int n, int parametre)
+{
+	int valeurs_modifiees[81][2];
+	int limite = 0;
+	int x = 0;
+	int y = 0;
+	srand(time(NULL));
+	switch (parametre)
+	{
+	case 1:
+		limite = n*n/2;
+		break;
+	case 2:
+		limite = n * n / 3;
+		break;
+	case 3:
+		limite = n * n / 4;
+		break;
+	default:
+		printf("Parametre invalide !\n");
+		break;
+	}
+	for (int i = 0; i < limite; i++)
+	{
+		x = rand() % (n - 1);
+		y = rand() % (n - 1);
+		valeurs_modifiees[i][0] = x;
+		valeurs_modifiees[i][1] = y;
+		while (1)
+		{
+			grille[y][x] = rand() % (n - 1) + 1;
+			if (verification(grille, n) == 1)
+			{
+				break;
+			}
+		}
+	}
 }
 
 int main()
@@ -124,7 +164,24 @@ int main()
 		{2, 3, 1}
 	};
 
-	editgrille(grille_valide, 3);
+	int grille3[9][9] = {
+		{0, 2, 0, 0, 0, 0, 0, 0, 9},
+		{9, 1, 2, 0, 0, 0, 0, 0, 8},
+		{0, 0, 0, 0, 0, 0, 0, 0, 7},
+		{7, 0, 0, 0, 0, 0, 0, 0, 0},
+		{6, 0, 0, 0, 0, 0, 5, 0, 0},
+		{0, 0, 0, 0, 0, 0, 3, 4, 0},
+		{4, 0, 0, 0, 8, 9, 1, 2, 3},
+		{3, 0, 0, 0, 0, 0, 0, 1 ,2},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0}
+		};
+
+	fillgrille(grille_facile, 9, 1);
+	showgrille(grille_facile, 9);
+	fillgrille(grille_moyenne, 9, 2);
+	showgrille(grille_moyenne, 9);
+	fillgrille(grille3, 9, 3);
+	showgrille(grille3, 9);
 
 	return 0;
 }
