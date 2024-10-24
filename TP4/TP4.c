@@ -21,7 +21,7 @@ void editgrille(int grille[9][9], int n)
 	scanf_s("%d %d", &ligne, &colonne);
 	if (ligne >= n || colonne >= n)
 	{
-		printf("\nCoorndonees invalides");
+		printf("\nCoorndonees invalides\n");
 	}
 	else
 	{
@@ -79,7 +79,7 @@ int verification(int grille[9][9], int n)
 		{
 			for (int k = j+1; k < n; k++)
 			{
-				if (k == j && j != 0) //Vérifie si un nombre est présent une fois par ligne
+				if (grille[i][j] == grille[i][k] && grille[i][j] != 0) //Vérifie si un nombre est présent une fois par ligne
 				{
 					return 0;
 				}
@@ -95,7 +95,6 @@ int verification(int grille[9][9], int n)
 
 void fillgrille(int grille[9][9], int n, int parametre)
 {
-	int valeurs_modifiees[81][2];
 	int limite = 0;
 	int x = 0;
 	int y = 0;
@@ -117,11 +116,16 @@ void fillgrille(int grille[9][9], int n, int parametre)
 	}
 	for (int i = 0; i < limite; i++)
 	{
-		x = rand() % (n - 1);
-		y = rand() % (n - 1);
-		valeurs_modifiees[i][0] = x;
-		valeurs_modifiees[i][1] = y;
 		while (1)
+		{
+			x = rand() % (n);
+			y = rand() % (n);
+			if (grille[y][x] == 0)
+			{
+				break;
+			}
+		}
+		while(1)
 		{
 			grille[y][x] = rand() % (n - 1) + 1;
 			if (verification(grille, n) == 1)
@@ -132,56 +136,84 @@ void fillgrille(int grille[9][9], int n, int parametre)
 	}
 }
 
+int grilleFinie(int grille[9][9], int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (grille[i][j] == 0)
+			{
+				return 0;
+			}
+			
+		}
+	}
+	printf("Felecitations !\n");
+	return 1;
+}
+
 int main()
 {
-	int grille_facile[9][9] = {
-		{6, 0, 4, 9, 0, 0, 3, 0, 8},
-		{3, 2, 0, 8, 0, 0, 4, 0, 0},
-		{0, 0, 0, 6, 0, 4, 5, 2, 1},
-		{1, 0, 2, 7, 4, 3, 8, 9, 6},
-		{8, 0, 0, 0, 0, 0, 0, 0, 0},
-		{9, 4, 7, 5, 8, 0, 0, 0, 0},
-		{4, 9, 0, 2, 0, 8, 6, 0, 3},
-		{0, 3, 6, 4, 0, 0, 0, 0, 0},
-		{0, 7, 0, 0, 6, 9, 0, 0, 4}
-	};
-
-	int grille_moyenne[9][9] = {
-		{1, 0, 0, 7, 0, 6, 0, 0, 0},
-		{0, 0, 0, 0, 0, 8, 5, 6, 0},
-		{6, 0, 8, 0, 5, 3, 4, 0, 1},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 6},
+	int grille[9][9] = {
 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 3, 0, 0, 0, 0, 0, 0, 0},
-		{8, 4, 0, 3, 0, 1, 0, 5, 9}
-	};
-
-	int grille_valide[9][9] = {
-		{1, 2, 3},
-		{3, 1, 2},
-		{2, 3, 1}
-	};
-
-	int grille3[9][9] = {
-		{0, 2, 0, 0, 0, 0, 0, 0, 9},
-		{9, 1, 2, 0, 0, 0, 0, 0, 8},
-		{0, 0, 0, 0, 0, 0, 0, 0, 7},
-		{7, 0, 0, 0, 0, 0, 0, 0, 0},
-		{6, 0, 0, 0, 0, 0, 5, 0, 0},
-		{0, 0, 0, 0, 0, 0, 3, 4, 0},
-		{4, 0, 0, 0, 8, 9, 1, 2, 3},
-		{3, 0, 0, 0, 0, 0, 0, 1 ,2},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 0, 0 ,0},
 		{0, 0, 0, 0, 0, 0, 0, 0, 0}
-		};
+	};
 
-	fillgrille(grille_facile, 9, 1);
-	showgrille(grille_facile, 9);
-	fillgrille(grille_moyenne, 9, 2);
-	showgrille(grille_moyenne, 9);
-	fillgrille(grille3, 9, 3);
-	showgrille(grille3, 9);
+	while(1)
+	{
+		initgrille(grille, 9);
+		int tailleGrille = 9;
+		char ouiNon = 'o';
+		int niveau = 1;
 
-	return 0;
+		printf("Choisissez une taille de grille : ");
+		scanf_s("%d", &tailleGrille);
+		getchar();
+
+		printf("Voulez-vous initialiser la grille ? (o/n) : ");
+		scanf_s("%c", &ouiNon);
+		getchar();
+		if (ouiNon == 'o')
+		{
+			editgrille(grille, tailleGrille);
+			showgrille(grille, tailleGrille);	
+		}
+
+		printf("Voulez-vous generer alealatoirement la grille ? (o/n) : ");
+		scanf_s("%c", &ouiNon);
+		getchar();
+		if (ouiNon == 'o')
+		{
+			printf("Choisissez un niveau : ");
+			scanf_s("%d", &niveau);
+			getchar();
+			fillgrille(grille, tailleGrille, niveau);
+			showgrille(grille, tailleGrille);
+		}
+
+		printf("Voulez-vous resoudre la grille ? (o/n) : ");
+		scanf_s("%c", &ouiNon);
+		getchar();
+		while (grilleFinie(grille, tailleGrille) == 0)
+		{
+			editgrille(grille, tailleGrille);
+			showgrille(grille, tailleGrille);
+		}
+
+		printf("Voulez-vous fermer le programme ? (o/n) : ");
+		scanf_s("%c", &ouiNon);
+		getchar();
+		if (ouiNon == 'o')
+		{
+			return 0;
+		}
+	}
 }
