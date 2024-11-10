@@ -1,3 +1,5 @@
+// NOTE : 17/20
+
 #include <stdio.h>
 #include <time.h>
 
